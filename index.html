@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件的详解</title>
+	<script src="./js/all.js"></script>
+	<script type="text/javascript">
+       $(function(){
+		var one=$("#one");
+		// console.log(one)
+		addEvent(one,"mousedown",downFn)
+		function downFn(e){
+			var ev=e||window.event;
+			var oX=ev.offsetX||ev.layerX
+			var oY=ev.offsetY||ev.layerY
+			addEvent(document,"mousemove",moveFn)//为什么加document.是因为点击非常快的时候会出现bug
+			function moveFn(e){
+				var ev=e||window.event;
+				var cX=ev.clientX;
+				var cY=ev.clientY;
+				one.style.left=cX-oX+"px"
+				one.style.top=cY-oY+"px"
+			}
+			addEvent(document,"mouseup",upFn)
+                function upFn(){
+                	removeEvent(one,"mousedown",downFn)
+                	removeEvent(document,"mousemove",moveFn)
+                }
+                
+		}
+	})
+
+		// allgain(function(){
+		// 	var one=allgain(".one");
+		// 	console.log(one)
+		// 	addEvent(one,"mousedown",downfn);
+		// 	function downfn(e){
+		// 		var ev=e||window.event;
+		// 		var ox=ev.offsetX||ev.layerX;
+		// 		var oy=ev.offsetY||ev.layerY;
+		// 	addEvent(document,"mousemove",movefn);
+		// 	function movefn(e){
+		// 		var ev=e||window.event;
+		// 		var cx=ev.clientX;
+		// 		var cy=ev.clientY;
+		// 		one.style.left=cx-ox+"px";
+		// 		one.style.top=cy-oy+"px";
+		// 	}
+		// 	addEvent(document,"mouseup",upfn);
+		// 	function upfn(){
+		// 		removeEvent(one,"mousedown",downfn);
+		// 		remove(document,"mousedown",movefn);
+		// 	}
+		// 	}
+		// })
+</script>
+			
+
+	<style type="text/css">
+	#one{
+		width:200px;
+		height:200px;
+		background:red;
+		position:absolute;
+		top:10;
+		left:10;
+	}
+	</style>
+</head>
+<body>
+	<div id="one"></div>
+</body>
+</html>
